@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <!-- Creamos el lienzo para dibujar -->
+  <canvas id="miLienzo" width="600" height="400" style="background:#2498ce;"></canvas>
+
+  <script>
+    const canvas = document.getElementById("miLienzo");
+    const ctx = canvas.getContext("2d");
+
+    // 1. PROPIEDADES DEL OBJETO
+    let x = 100;        // Posición horizontal inicial
+    let y = 250;       // Posición vertical
+    let radio = 80;    // Tamaño de la pelota
+    let velocidad = 4; // Cuántos píxeles se mueve por fotograma
+
+    // 2. EL BUCLE DE ANIMACIÓN (Se ejecuta 60 veces por segundo)
+    function animar() {
+      // Borrar la pantalla anterior
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Dibujar la pelota en la posición actual
+      ctx.beginPath();
+      ctx.arc(x, y, radio, 0, Math.PI * 2);
+      ctx.fillStyle = "#00ffcc";
+      ctx.fill();
+      ctx.closePath();
+
+      // Actualizar la posición para el siguiente fotograma
+      x = x + velocidad;
+
+      // Detectar colisión con las paredes para rebotar
+      if (x + radio > canvas.width || x - radio < 0) {
+        velocidad = -velocidad; // Invierte la dirección
+      }
+
+      // Pedir al navegador que ejecute el siguiente fotograma
+      requestAnimationFrame(animar);
+    }
+
+    // Iniciar la animación por primera vez
+    animar();
+  </script>
+</body>
+</html>
